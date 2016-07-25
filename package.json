@@ -1,0 +1,45 @@
+{
+  "name": "spike-contentful",
+  "description": "Contentful CMS plugin for spike",
+  "version": "0.1.0",
+  "author": "Tom Milewski",
+  "ava": {
+    "verbose": "true",
+    "serial": "true"
+  },
+  "bugs": "https://github.com/static-dev/spike-contentful/issues",
+  "dependencies": {
+    "contentful": "3.5.0",
+    "when": "^3.7.7",
+    "posthtml": "^0.9.0"
+  },
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "coveralls": "^2.11.9",
+    "dotenv": "^2.0.0",
+    "nyc": "^6.4.4",
+    "posthtml-jade": "^0.8.2",
+    "posthtml-exp": "^0.9.0",
+    "rimraf": "^2.5.2",
+    "spike-core": "^0.9.0",
+    "standard": "^7.1.2"
+  },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "homepage": "https://github.com/static-dev/spike-contentful",
+  "keywords": [
+    "spikeplugin",
+    "contentful",
+    "contentfulcms",
+    "spike"
+  ],
+  "license": "MIT",
+  "main": "lib",
+  "repository": "static-dev/spike-contentful",
+  "scripts": {
+    "test": "ava",
+    "coverage": "nyc ava",
+    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
+  }
+}
