@@ -43,7 +43,7 @@ module.exports = {
       ]
     })
   ],
-  posthtml: { defaults: jade(locals) }
+  posthtml: { plugins: jade(locals) }
 }
 ```
 
