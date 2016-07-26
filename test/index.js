@@ -36,6 +36,60 @@ test('initializes with an "accessToken", "spaceId", and "addDataTo"', (t) => {
   t.truthy(rt)
 })
 
+test('initializes with "limit" filter', (t) => {
+  t.truthy(new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+    name: 'test', id: 'xxxx', filters: { limit: 50 } }
+  ]}))
+})
+
+test('errors with "limit" filter under 1', (t) => {
+  t.throws(
+    () => {
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+        name: 'test', id: 'xxxx', filters: { limit: 0 } }
+      ]})
+    }, // eslint-disable-line
+    /option "limit" must be larger than or equal to 1/
+  )
+})
+
+test('errors with "limit" filter over 100', (t) => {
+  t.throws(
+    () => {
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+        name: 'test', id: 'xxxx', filters: { limit: 101 } }
+      ]})
+    }, // eslint-disable-line
+    /option "limit" must be less than or equal to 1/
+  )
+})
+
+test('initializes with "limit" filter', (t) => {
+  let opts = { accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+    name: 'test', id: 'xxxx', filters: { limit: 50 } }
+  ]}
+  t.truthy( new Contentful(opts))
+
+  // t.throws(
+  //   () => {
+  //     opts.filters.limit = 0
+  //     console.log(opts)
+  //     new Contentful(opts)
+  //   }, // eslint-disable-line
+  //   'ValidationError: [spike-contentful constructor] option "limit" must contain at least 1 items'
+  // )
+  //
+  // t.throws(
+  //   () => {
+  //     opts.filters.limit = 101
+  //     console.log(opts)
+  //     new Contentful(opts)
+  //   }, // eslint-disable-line
+  //   'ValidationError: [spike-contentful constructor] option "limit" must contain less than or equal to 100 items'
+  // )
+})
+
+
 test.cb('returns valid content', (t) => {
   const locals = {}
   const api = new Contentful({
@@ -55,7 +109,6 @@ test.cb('returns valid content', (t) => {
   })
 
   api.run(compilerMock, undefined, () => {
-    // console.log("Locals:", JSON.stringify(locals.contentful, null, 2))
     t.is(locals.contentful.press.length, 91)
     t.is(locals.contentful.blogs.length, 100)
     t.end()
@@ -227,7 +280,7 @@ test.cb('accepts template object and generates html', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/default')
   const project = new Spike({
     root: projectPath,
-    posthtml: { defaults: [exp({ locals })] },
+    posthtml: { plugins: [exp({ locals })] },
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })
