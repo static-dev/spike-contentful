@@ -134,7 +134,7 @@ test.cb('implements request options', (t) => {
 
   api.run(compilerMock, undefined, () => {
     t.is(locals.contentful.blogs.length, 1)
-    t.is(locals.contentful.blogs[0].title, 'Always Looking')
+    t.is(locals.contentful.blogs[0].title, 'This Webby Saves Elephants ...')
     t.end()
   })
 })
@@ -227,7 +227,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === '3zjjnxwJWoks0Ym26U2Em0') // IDs listed in output, sans spaces
+    t.truthy(src === 'Xx7XpgXDCCsG2AgeGKeKs') // IDs listed in output, sans spaces
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -288,10 +288,49 @@ test.cb('accepts template object and generates html', (t) => {
   project.on('error', t.end)
   project.on('warning', t.end)
   project.on('compile', () => {
-    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Always Looking.html'), 'utf8')
-    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Carrot Clicks: Our Week in Bodega (Cats), Brackets and Burgers .html'), 'utf8')
-    t.is(file1.trim(), '<p>Always Looking</p>')
-    t.is(file2.trim(), '<p>Carrot Clicks: Our Week in Bodega (Cats), Brackets and Burgers </p>')
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/This Webby Saves Elephants ....html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Targeting Female Sci-Fi Fans, Carrot Launches "Her Universe".html'), 'utf8')
+    t.is(file1.trim(), '<p>This Webby Saves Elephants ...</p>')
+    t.is(file2.trim(), '<p>Targeting Female Sci-Fi Fans, Carrot Launches &quot;Her Universe&quot;</p>')
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+
+  project.compile()
+})
+
+test.cb('generates error if template has an error', (t) => {
+  const locals = {}
+  const contentful = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'blogs',
+        id: '633fTeiMaQwE44OsIqSimk',
+        filters: {
+          limit: 1
+        },
+        template: {
+          path: '../template/error.html',
+          output: (item) => `blog_posts/${item.title}.html`
+        }
+      }
+    ]
+  })
+
+  const projectPath = path.join(__dirname, 'fixtures/default')
+  const project = new Spike({
+    root: projectPath,
+    posthtml: { plugins: [exp({ locals })] },
+    entry: { main: [path.join(projectPath, 'main.js')] },
+    plugins: [contentful]
+  })
+
+  project.on('warning', t.end)
+  project.on('error', (error) => {
+    t.is(error.message.message, 'notItem is not defined')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
