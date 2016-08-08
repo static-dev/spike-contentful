@@ -63,6 +63,42 @@ ul
     li= JSON.stringify(post)
 ```
 
+
+### Ordered Content
+
+In some cases you'll need to use a content model to maintain order of another content model. Take the following for example:
+
+```
+Case Study
+
+- Title [Short Text]
+- Client [Short Text]
+...
+```
+
+```
+Case Study Order
+
+- Case Studies [References, many]
+```
+
+In order to pull formatted and ordered `case studies`, you'll need to use the following parameters:
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  spaceId: 'xxx',
+  contentTypes: [
+    {
+      name: 'case_studies', // Arbitrary name used from within templates
+      id: '633fTeiMaxxxxxxxxx', // This should point to the case_studies_order content type
+      ordered: true // Required. Appropriately format the related ordered content type
+    }
+  ]
+})
+```
+
 ### Filters
 
 #### Limit

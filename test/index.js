@@ -69,24 +69,6 @@ test('initializes with "limit" filter', (t) => {
     name: 'test', id: 'xxxx', filters: { limit: 50 } }
   ]}
   t.truthy( new Contentful(opts))
-
-  // t.throws(
-  //   () => {
-  //     opts.filters.limit = 0
-  //     console.log(opts)
-  //     new Contentful(opts)
-  //   }, // eslint-disable-line
-  //   'ValidationError: [spike-contentful constructor] option "limit" must contain at least 1 items'
-  // )
-  //
-  // t.throws(
-  //   () => {
-  //     opts.filters.limit = 101
-  //     console.log(opts)
-  //     new Contentful(opts)
-  //   }, // eslint-disable-line
-  //   'ValidationError: [spike-contentful constructor] option "limit" must contain less than or equal to 100 items'
-  // )
 })
 
 
@@ -134,7 +116,7 @@ test.cb('implements request options', (t) => {
 
   api.run(compilerMock, undefined, () => {
     t.is(locals.contentful.blogs.length, 1)
-    t.is(locals.contentful.blogs[0].title, 'This Webby Saves Elephants ...')
+    t.is(locals.contentful.blogs[0].title, 'Unlocking The Grid')
     t.end()
   })
 })
@@ -227,7 +209,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === 'Xx7XpgXDCCsG2AgeGKeKs') // IDs listed in output, sans spaces
+    t.truthy(src === 'fqhi1USjAIuogSS2AKEKu') // IDs listed in output, sans spaces
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -288,10 +270,10 @@ test.cb('accepts template object and generates html', (t) => {
   project.on('error', t.end)
   project.on('warning', t.end)
   project.on('compile', () => {
-    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/This Webby Saves Elephants ....html'), 'utf8')
-    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Targeting Female Sci-Fi Fans, Carrot Launches "Her Universe".html'), 'utf8')
-    t.is(file1.trim(), '<p>This Webby Saves Elephants ...</p>')
-    t.is(file2.trim(), '<p>Targeting Female Sci-Fi Fans, Carrot Launches &quot;Her Universe&quot;</p>')
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Unlocking The Grid.html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Carrot Clicks: Our Week in Sailor Mooning, Twerking and Twitching.html'), 'utf8')
+    t.is(file1.trim(), '<p>Unlocking The Grid</p>')
+    t.is(file2.trim(), '<p>Carrot Clicks: Our Week in Sailor Mooning, Twerking and Twitching</p>')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -336,4 +318,36 @@ test.cb('generates error if template has an error', (t) => {
   })
 
   project.compile()
+})
+
+test.cb('generates appropriate output for ordered content types', (t) => {
+  const locals = {}
+  const api = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'case_studies',
+        ordered: true,
+        id: '4FmWzuxZb2EcgyU44weG0Q',
+        filters: {
+          limit: 100
+        }
+      },
+      {
+        name: 'blogs',
+        id: '633fTeiMaQwE44OsIqSimk',
+        filters: {
+          limit: 10
+        }
+      }
+    ]
+  })
+
+  api.run(compilerMock, undefined, () => {
+    t.is(locals.contentful.case_studies.length, 42)
+    t.is(locals.contentful.blogs.length, 10)
+    t.end()
+  })
 })
