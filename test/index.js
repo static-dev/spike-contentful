@@ -116,7 +116,7 @@ test.cb('implements request options', (t) => {
 
   api.run(compilerMock, undefined, () => {
     t.is(locals.contentful.blogs.length, 1)
-    t.is(locals.contentful.blogs[0].title, 'Unlocking The Grid')
+    t.is(locals.contentful.blogs[0].title, 'High School Daydreams')
     t.end()
   })
 })
@@ -184,7 +184,8 @@ test.cb('can disable transform function', (t) => {
         name: 'blogs',
         id: '633fTeiMaQwE44OsIqSimk',
         filters: {
-          limit: 1
+          limit: 1,
+          order: 'sys.createdAt'
         },
         transform: false
       }
@@ -209,7 +210,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === 'fqhi1USjAIuogSS2AKEKu') // IDs listed in output, sans spaces
+    t.truthy(src === '47YoE6TuaAqqmkiGcqo0Ak') // IDs listed in output, sans spaces
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -249,7 +250,8 @@ test.cb('accepts template object and generates html', (t) => {
         name: 'blogs',
         id: '633fTeiMaQwE44OsIqSimk',
         filters: {
-          limit: 2
+          limit: 2,
+          order: 'sys.createdAt'
         },
         template: {
           path: '../template/template.html',
@@ -270,10 +272,10 @@ test.cb('accepts template object and generates html', (t) => {
   project.on('error', t.end)
   project.on('warning', t.end)
   project.on('compile', () => {
-    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Unlocking The Grid.html'), 'utf8')
-    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Carrot Clicks: Our Week in Sailor Mooning, Twerking and Twitching.html'), 'utf8')
-    t.is(file1.trim(), '<p>Unlocking The Grid</p>')
-    t.is(file2.trim(), '<p>Carrot Clicks: Our Week in Sailor Mooning, Twerking and Twitching</p>')
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Save The Elephants.html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Unlocking The Grid.html'), 'utf8')
+    t.is(file1.trim(), '<p>Save The Elephants</p>')
+    t.is(file2.trim(), "<p>Unlocking The Grid</p>")
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
