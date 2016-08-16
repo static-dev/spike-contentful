@@ -14,7 +14,8 @@ module.exports = {
         name: 'blogs',
         id: '633fTeiMaQwE44OsIqSimk',
         filters: {
-          limit: 1
+          limit: 1,
+          order: 'sys.createdAt'
         }
       }
     ]

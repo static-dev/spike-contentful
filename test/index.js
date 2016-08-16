@@ -184,8 +184,7 @@ test.cb('can disable transform function', (t) => {
         name: 'blogs',
         id: '633fTeiMaQwE44OsIqSimk',
         filters: {
-          limit: 1,
-          order: 'sys.createdAt'
+          limit: 1
         },
         transform: false
       }
@@ -210,7 +209,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === '47YoE6TuaAqqmkiGcqo0Ak') // IDs listed in output, sans spaces
+    t.truthy(src === 'fqhi1USjAIuogSS2AKEKu') // IDs listed in output, sans spaces
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
