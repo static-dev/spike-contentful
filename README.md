@@ -122,6 +122,28 @@ new Contentful({
 })
 ```
 
+#### Order
+
+To order results of a given content type:
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  spaceId: 'xxx',
+  contentTypes: [
+    {
+      name: 'posts',
+      id: '633fTeiMaxxxxxxxxx',
+      filters: {
+        limit: 10,
+        order: 'sys.createdAt'
+      }
+    }
+  ]
+})
+```
+
 ### Transforms
 
 Contentful returns a lot of associated data and, as a result, we clean that up by default. You also have the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
