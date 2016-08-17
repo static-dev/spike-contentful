@@ -1,10 +1,10 @@
 const Contentful = require('../../..')
-const jade = require('posthtml-jade')
+const htmlStandards = require('spike-html-standards')
 const locals = {}
 
 module.exports = {
   matchers: { html: '**/*.jade' },
-  posthtml: { plugins: [jade(locals)] },
+  reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
   plugins: [new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
