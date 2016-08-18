@@ -11,7 +11,7 @@
   "dependencies": {
     "contentful": "3.5.0",
     "reshape": "^0.3.1",
-    "reshape-loader": "^0.2.2",
+    "reshape-loader": "^0.2.3",
     "when": "^3.7.7"
   },
   "devDependencies": {
@@ -20,7 +20,7 @@
     "dotenv": "^2.0.0",
     "nyc": "^8.1.0",
     "rimraf": "^2.5.4",
-    "spike-core": "^0.11.1",
+    "spike-core": "^0.11.2",
     "spike-html-standards": "^0.2.1",
     "standard": "^7.1.2"
   },
