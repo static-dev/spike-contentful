@@ -6,7 +6,7 @@ const Spike = require('spike-core')
 const path = require('path')
 const fs = require('fs')
 const rimraf = require('rimraf')
-const exp = require('posthtml-exp')
+const htmlStandards = require('spike-html-standards')
 
 const compilerMock = { options: { spike: { locals: {} } } }
 
@@ -45,10 +45,10 @@ test('initializes with "limit" filter', (t) => {
 test('errors with "limit" filter under 1', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 0 } }
       ]})
-    }, // eslint-disable-line
+    },
     /option "limit" must be larger than or equal to 1/
   )
 })
@@ -56,10 +56,10 @@ test('errors with "limit" filter under 1', (t) => {
 test('errors with "limit" filter over 100', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 101 } }
       ]})
-    }, // eslint-disable-line
+    },
     /option "limit" must be less than or equal to 1/
   )
 })
@@ -68,9 +68,8 @@ test('initializes with "limit" filter', (t) => {
   let opts = { accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
     name: 'test', id: 'xxxx', filters: { limit: 50 } }
   ]}
-  t.truthy( new Contentful(opts))
+  t.truthy(new Contentful(opts))
 })
-
 
 test.cb('returns valid content', (t) => {
   const locals = {}
@@ -116,7 +115,7 @@ test.cb('implements request options', (t) => {
 
   api.run(compilerMock, undefined, () => {
     t.is(locals.contentful.blogs.length, 1)
-    t.is(locals.contentful.blogs[0].title, 'High School Daydreams')
+    t.is(locals.contentful.blogs[0].title, 'This Webby Saves Elephants ...')
     t.end()
   })
 })
@@ -172,7 +171,6 @@ test.cb('implements default transform function', (t) => {
   })
 })
 
-
 test.cb('can disable transform function', (t) => {
   const locals = {}
   const api = new Contentful({
@@ -209,7 +207,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === 'fqhi1USjAIuogSS2AKEKu') // IDs listed in output, sans spaces
+    t.truthy(src === '<p>fqhi1USjAIuogSS2AKEKu</p>') // IDs listed in output, sans spaces
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -253,7 +251,7 @@ test.cb('accepts template object and generates html', (t) => {
           order: 'sys.createdAt'
         },
         template: {
-          path: '../template/template.html',
+          path: '../template/template.sml',
           output: (item) => `blog_posts/${item.title}.html`
         }
       }
@@ -263,7 +261,8 @@ test.cb('accepts template object and generates html', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/default')
   const project = new Spike({
     root: projectPath,
-    posthtml: { plugins: [exp({ locals })] },
+    matchers: { html: '**/*.sml' },
+    reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })
@@ -274,7 +273,7 @@ test.cb('accepts template object and generates html', (t) => {
     const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Save The Elephants.html'), 'utf8')
     const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Unlocking The Grid.html'), 'utf8')
     t.is(file1.trim(), '<p>Save The Elephants</p>')
-    t.is(file2.trim(), "<p>Unlocking The Grid</p>")
+    t.is(file2.trim(), '<p>Unlocking The Grid</p>')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -296,7 +295,7 @@ test.cb('generates error if template has an error', (t) => {
           limit: 1
         },
         template: {
-          path: '../template/error.html',
+          path: '../template/error.sml',
           output: (item) => `blog_posts/${item.title}.html`
         }
       }
@@ -306,14 +305,16 @@ test.cb('generates error if template has an error', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/default')
   const project = new Spike({
     root: projectPath,
-    posthtml: { plugins: [exp({ locals })] },
+    matchers: { html: '**/*.sml' },
+    reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })
 
   project.on('warning', t.end)
+  project.on('compile', () => t.end('no error'))
   project.on('error', (error) => {
-    t.is(error.message.message, 'notItem is not defined')
+    t.is(error.message.message, "Cannot read property 'title' of undefined")
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })

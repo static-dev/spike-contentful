@@ -10,19 +10,18 @@
   "bugs": "https://github.com/static-dev/spike-contentful/issues",
   "dependencies": {
     "contentful": "3.5.0",
-    "when": "^3.7.7",
-    "posthtml": "^0.9.0",
-    "posthtml-loader": "^0.11.0"
+    "reshape": "^0.3.1",
+    "reshape-loader": "^0.2.3",
+    "when": "^3.7.7"
   },
   "devDependencies": {
     "ava": "^0.16.0",
     "coveralls": "^2.11.12",
     "dotenv": "^2.0.0",
     "nyc": "^8.1.0",
-    "posthtml-jade": "^0.8.2",
-    "posthtml-exp": "^0.9.0",
     "rimraf": "^2.5.4",
-    "spike-core": "^0.10.0",
+    "spike-core": "^0.11.2",
+    "spike-html-standards": "^0.2.1",
     "standard": "^7.1.2"
   },
   "engines": {
