@@ -22,7 +22,7 @@ This is a standard [webpack](https://webpack.github.io/) plugin, but is built fo
 ```js
 // app.js
 const Contentful = require('spike-contentful')
-const jade = require('posthtml-jade')
+const htmlStandards = require('spike-html-standards')
 const locals = {}
 
 module.exports = {
@@ -43,21 +43,25 @@ module.exports = {
       ]
     })
   ],
-  posthtml: { plugins: jade(locals) }
+  reshape: (ctx) => {
+    return htmlStandards({
+      locals: { locals }
+    })
+  }
 }
 ```
 
 At a minimum, the `spike-contentful` plugin requires both `name` and `id` for `contentTypes`. The `name` corresponds with how you'd like to access it in your templates. The `id` is found listed under "Identifier" by logging into Contentful and clicking "APIs" then "Content model explorer".
 
-Since Spike uses `posthtml`, you can use a variety of different plugins to expose local variables to your html. We are using [jade](https://github.com/posthtml/posthtml-jade) here because it's the plugin provided in spike's default template, and also is currently the only plugin that provides the ability to run complex loops through objects.
+Since Spike uses `reshape`, you can use a variety of different plugins to expose local variables to your html. We are using [reshape](https://github.com/reshape/reshape) along with [spike html standards](https://github.com/static-dev/spike-html-standards) here because it's the plugin provided in spike's default template, and also is currently the only plugin that provides the ability to run complex loops through objects.
 
-In order to pass the data correctly, you must pass `spike-contentful` an object, which it will load the data onto when the compile begins under a `contentful` key. If you also pass the same object to whatever `posthtml` plugin you are using in whatever manner it requires to make the data available in your html templates, the data will be present on that object before they start compiling. This is a slightly unconventional pattern for Javascript libraries, but in this situation it allows for maximum flexibility and convenience.
+In order to pass the data correctly, you must pass `spike-contentful` an object, which it will load the data onto when the compile begins under a `contentful` key. If you also pass the same object to whatever `reshape` plugin you are using in whatever manner it requires to make the data available in your html templates, the data will be present on that object before they start compiling. This is a slightly unconventional pattern for Javascript libraries, but in this situation it allows for maximum flexibility and convenience.
 
 Once included, it will expose a `contentful` local to your jade files, which you can use to iterate through your content types. Based on the example above, the `posts` content type will be accessible through `contentful.posts`, as such:
 
 
 ```jade
-//- a jade file
+//- a template file
 ul
   for post in contentful.posts
     li= JSON.stringify(post)
