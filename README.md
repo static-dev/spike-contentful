@@ -45,7 +45,7 @@ module.exports = {
   ],
   reshape: (ctx) => {
     return htmlStandards({
-      locals: { locals }
+      locals
     })
   }
 }
