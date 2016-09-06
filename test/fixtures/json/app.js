@@ -3,7 +3,7 @@ const htmlStandards = require('spike-html-standards')
 const locals = {}
 
 module.exports = {
-  matchers: { html: '**/*.jade' },
+  matchers: { html: '*(**/)*.sgr' },
   reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
   plugins: [new Contentful({
     accessToken: process.env.accessToken,
