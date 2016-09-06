@@ -37,9 +37,14 @@ test('initializes with an "accessToken", "spaceId", and "addDataTo"', (t) => {
 })
 
 test('initializes with "limit" filter', (t) => {
-  t.truthy(new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
-    name: 'test', id: 'xxxx', filters: { limit: 50 } }
-  ]}))
+  t.truthy(new Contentful({
+    accessToken: 'xxx',
+    spaceId: 'xxx',
+    addDataTo: {},
+    contentTypes: [{
+      name: 'test', id: 'xxxx', filters: { limit: 50 }
+    }]
+  }))
 })
 
 test('errors with "limit" filter under 1', (t) => {
@@ -65,9 +70,14 @@ test('errors with "limit" filter over 100', (t) => {
 })
 
 test('initializes with "limit" filter', (t) => {
-  let opts = { accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{
-    name: 'test', id: 'xxxx', filters: { limit: 50 } }
-  ]}
+  const opts = {
+    accessToken: 'xxx',
+    spaceId: 'xxx',
+    addDataTo: {},
+    contentTypes: [{
+      name: 'test', id: 'xxxx', filters: { limit: 50 } }
+    ]
+  }
   t.truthy(new Contentful(opts))
 })
 
@@ -251,7 +261,7 @@ test.cb('accepts template object and generates html', (t) => {
           order: 'sys.createdAt'
         },
         template: {
-          path: '../template/template.sml',
+          path: '../template/template.sgr',
           output: (item) => `blog_posts/${item.title}.html`
         }
       }
@@ -261,7 +271,7 @@ test.cb('accepts template object and generates html', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/default')
   const project = new Spike({
     root: projectPath,
-    matchers: { html: '**/*.sml' },
+    matchers: { html: '**/*.sgr' },
     reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
@@ -295,7 +305,7 @@ test.cb('generates error if template has an error', (t) => {
           limit: 1
         },
         template: {
-          path: '../template/error.sml',
+          path: '../template/error.sgr',
           output: (item) => `blog_posts/${item.title}.html`
         }
       }
@@ -305,7 +315,7 @@ test.cb('generates error if template has an error', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/default')
   const project = new Spike({
     root: projectPath,
-    matchers: { html: '**/*.sml' },
+    matchers: { html: '**/*.sgr' },
     reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
