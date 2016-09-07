@@ -20,7 +20,7 @@
     "dotenv": "^2.0.0",
     "nyc": "^8.1.0",
     "rimraf": "^2.5.4",
-    "spike-core": "^0.12.0",
+    "spike-core": "^0.12.1",
     "spike-html-standards": "^0.3.4",
     "standard": "^8.0.0"
   },
