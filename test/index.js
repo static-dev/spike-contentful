@@ -106,7 +106,7 @@ test.cb('returns valid content', (t) => {
   })
 })
 
-test.cb('implements request options', (t) => {
+test.skip.cb('implements request options', (t) => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
