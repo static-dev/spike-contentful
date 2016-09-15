@@ -21,7 +21,7 @@
     "nyc": "^8.1.0",
     "rimraf": "^2.5.4",
     "spike-core": "^0.12.1",
-    "spike-html-standards": "^0.3.4",
+    "spike-html-standards": "^0.3.6",
     "standard": "^8.0.0"
   },
   "engines": {
