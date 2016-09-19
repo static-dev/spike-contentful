@@ -6,7 +6,7 @@ const Spike = require('spike-core')
 const path = require('path')
 const fs = require('fs')
 const rimraf = require('rimraf')
-const htmlStandards = require('spike-html-standards')
+const standard = require('reshape-standard')
 
 const compilerMock = { options: { spike: { locals: {} } } }
 
@@ -272,7 +272,7 @@ test.cb('accepts template object and generates html', (t) => {
   const project = new Spike({
     root: projectPath,
     matchers: { html: '**/*.sgr' },
-    reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
+    reshape: (ctx) => standard({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })
@@ -316,7 +316,7 @@ test.cb('generates error if template has an error', (t) => {
   const project = new Spike({
     root: projectPath,
     matchers: { html: '**/*.sgr' },
-    reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
+    reshape: (ctx) => standard({ webpack: ctx, locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })

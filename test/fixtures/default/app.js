@@ -1,10 +1,10 @@
 const Contentful = require('../../..')
-const htmlStandards = require('spike-html-standards')
+const standard = require('reshape-standard')
 const locals = {}
 
 module.exports = {
   matchers: { html: '*(**/)*.sgr' },
-  reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
+  reshape: (ctx) => standard({ webpack: ctx, locals }),
   plugins: [new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
