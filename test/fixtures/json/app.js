@@ -1,5 +1,5 @@
 const Contentful = require('../../..')
-const htmlStandards = require('spike-html-standards')
+const htmlStandards = require('reshape-standard')
 const locals = {}
 
 module.exports = {

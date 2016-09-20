@@ -22,7 +22,7 @@ This is a standard [webpack](https://webpack.github.io/) plugin, but is built fo
 ```js
 // app.js
 const Contentful = require('spike-contentful')
-const htmlStandards = require('spike-html-standards')
+const htmlStandards = require('reshape-standard')
 const locals = {}
 
 module.exports = {
