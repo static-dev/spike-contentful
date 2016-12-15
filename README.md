@@ -61,10 +61,10 @@ Once included, it will expose a `contentful` local to your jade files, which you
 
 
 ```jade
-//- a template file
+// a template file
 ul
-  for post in contentful.posts
-    li= JSON.stringify(post)
+  each(loop='post of contentful.posts')
+    li {{ JSON.stringify(post) }}
 ```
 
 
