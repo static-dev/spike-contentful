@@ -11,8 +11,8 @@ module.exports = {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
+        name: 'cats',
+        id: 'cat',
         filters: {
           limit: 1,
           order: 'sys.createdAt'

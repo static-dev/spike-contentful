@@ -1,2 +1,2 @@
-each(loop='blog of contentful.blogs')
-  p {{ blog.id }}
+each(loop='cat of contentful.cats')
+  p {{ cat.fields.name }}
