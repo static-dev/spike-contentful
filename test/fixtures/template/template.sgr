@@ -1,1 +1,1 @@
-p {{ item.title }}
+p {{ item.fields.name }}

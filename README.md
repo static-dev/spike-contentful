@@ -67,42 +67,6 @@ ul
     li {{ JSON.stringify(post) }}
 ```
 
-
-### Ordered Content
-
-In some cases you'll need to use a content model to maintain order of another content model. Take the following for example:
-
-```
-Case Study
-
-- Title [Short Text]
-- Client [Short Text]
-...
-```
-
-```
-Case Study Order
-
-- Case Studies [References, many]
-```
-
-In order to pull formatted and ordered `case studies`, you'll need to use the following parameters:
-
-```js
-new Contentful({
-  addDataTo: locals,
-  accessToken: 'xxx',
-  spaceId: 'xxx',
-  contentTypes: [
-    {
-      name: 'case_studies', // Arbitrary name used from within templates
-      id: '633fTeiMaxxxxxxxxx', // This should point to the case_studies_order content type
-      ordered: true // Required. Appropriately format the related ordered content type
-    }
-  ]
-})
-```
-
 ### Filters
 
 #### Limit
@@ -150,7 +114,7 @@ new Contentful({
 
 ### Transforms
 
-Contentful returns a lot of associated data and, as a result, we clean that up by default. You also have the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
+Contentful returns a lot of associated data and, as a result, we include a way to clean it up. You also have the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
 
 ```js
 new Contentful({
@@ -170,7 +134,7 @@ new Contentful({
 })
 ```
 
-You also have the ability to disable the default `transform` and receive the raw JSON data.
+This plugin ships with a default transform function that will run some basic cleanup. However, be warned that the transform will enter an infinite loop and crash if there are circular references within the data, which is not an uncommon occurance, so please be very careful utilizing this transform. The enable our default transform, you can pass `true` as such:
 
 ```js
 new Contentful({
@@ -181,7 +145,7 @@ new Contentful({
     {
       name: 'posts',
       id: '633fTeiMaxxxxxxxxx',
-      transform: false
+      transform: true
     }
   ]
 })

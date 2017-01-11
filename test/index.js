@@ -89,24 +89,23 @@ test.cb('returns valid content', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'press',
-        id: '4Em9bQeIQowM0QM8o40yOA'
-      },
-      {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk'
+        name: 'cats',
+        id: 'cat'
+      }, {
+        name: 'dogs',
+        id: 'dog'
       }
     ]
   })
 
   api.run(compilerMock, undefined, () => {
-    t.is(locals.contentful.press.length, 91)
-    t.is(locals.contentful.blogs.length, 100)
+    t.is(locals.contentful.dogs.length, 2)
+    t.is(locals.contentful.cats.length, 3)
     t.end()
   })
 })
 
-test.skip.cb('implements request options', (t) => {
+test.cb('implements request options', (t) => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -114,18 +113,16 @@ test.skip.cb('implements request options', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
-        filters: {
-          limit: 1
-        }
+        name: 'cats',
+        id: 'cat',
+        filters: { limit: 1 }
       }
     ]
   })
 
   api.run(compilerMock, undefined, () => {
-    t.is(locals.contentful.blogs.length, 1)
-    t.is(locals.contentful.blogs[0].title, 'This Webby Saves Elephants ...')
+    t.is(locals.contentful.cats.length, 1)
+    t.is(locals.contentful.cats[0].fields.name, 'Garfield')
     t.end()
   })
 })
@@ -139,8 +136,8 @@ test.cb('works with custom transform function', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
+        name: 'cats',
+        id: 'cat',
         filters: {
           limit: 1
         },
@@ -153,12 +150,12 @@ test.cb('works with custom transform function', (t) => {
   })
 
   api.run(compilerMock, undefined, () => {
-    t.is(locals.contentful.blogs[0].doge, 'wow')
+    t.is(locals.contentful.cats[0].doge, 'wow')
     t.end()
   })
 })
 
-test.cb('implements default transform function', (t) => {
+test.cb('can implement default transform function', (t) => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -166,8 +163,9 @@ test.cb('implements default transform function', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
+        name: 'cats',
+        id: 'cat',
+        transform: true,
         filters: {
           limit: 1
         }
@@ -176,32 +174,7 @@ test.cb('implements default transform function', (t) => {
   })
 
   api.run(compilerMock, undefined, () => {
-    t.truthy(typeof locals.contentful.blogs[0].title === 'string')
-    t.end()
-  })
-})
-
-test.cb('can disable transform function', (t) => {
-  const locals = {}
-  const api = new Contentful({
-    accessToken: process.env.accessToken,
-    spaceId: process.env.spaceId,
-    addDataTo: locals,
-    contentTypes: [
-      {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
-        filters: {
-          limit: 1
-        },
-        transform: false
-      }
-    ]
-  })
-
-  api.run(compilerMock, undefined, () => {
-    t.truthy(typeof locals.contentful.blogs[0].sys === 'object')
-    t.truthy(typeof locals.contentful.blogs[0].fields === 'object')
+    t.truthy(typeof locals.contentful.cats[0].name === 'string')
     t.end()
   })
 })
@@ -217,7 +190,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === '<p>fqhi1USjAIuogSS2AKEKu</p>') // IDs listed in output, sans spaces
+    t.truthy(src === '<p>Nyan Cat</p>')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -238,7 +211,7 @@ test.cb('writes json output', (t) => {
     const file = path.join(projectPath, 'public/data.json')
     t.falsy(fs.accessSync(file))
     const src = JSON.parse(fs.readFileSync(path.join(projectPath, 'public/data.json'), 'utf8'))
-    t.truthy(src.blogs.length > 1)
+    t.truthy(src.dogs.length > 1)
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -254,15 +227,15 @@ test.cb('accepts template object and generates html', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
+        name: 'cats',
+        id: 'cat',
         filters: {
           limit: 2,
           order: 'sys.createdAt'
         },
         template: {
           path: '../template/template.sgr',
-          output: (item) => `blog_posts/${item.title}.html`
+          output: (item) => `cats/${item.fields.name}.html`
         }
       }
     ]
@@ -280,10 +253,10 @@ test.cb('accepts template object and generates html', (t) => {
   project.on('error', t.end)
   project.on('warning', t.end)
   project.on('compile', () => {
-    const file1 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Save The Elephants.html'), 'utf8')
-    const file2 = fs.readFileSync(path.join(projectPath, 'public/blog_posts/Unlocking The Grid.html'), 'utf8')
-    t.is(file1.trim(), '<p>Save The Elephants</p>')
-    t.is(file2.trim(), '<p>Unlocking The Grid</p>')
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/cats/Happy Cat.html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/cats/Nyan Cat.html'), 'utf8')
+    t.is(file1.trim(), '<p>Happy Cat</p>')
+    t.is(file2.trim(), '<p>Nyan Cat</p>')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -299,14 +272,14 @@ test.cb('generates error if template has an error', (t) => {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
+        name: 'cats',
+        id: 'cat',
         filters: {
           limit: 1
         },
         template: {
           path: '../template/error.sgr',
-          output: (item) => `blog_posts/${item.title}.html`
+          output: (item) => `cats/${item.fields.name}.html`
         }
       }
     ]
@@ -324,42 +297,10 @@ test.cb('generates error if template has an error', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => t.end('no error'))
   project.on('error', (error) => {
-    t.is(error.message.message, "Cannot read property 'title' of undefined")
+    t.is(error.message.message, "Cannot read property 'fields' of undefined")
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
 
   project.compile()
-})
-
-test.cb('generates appropriate output for ordered content types', (t) => {
-  const locals = {}
-  const api = new Contentful({
-    accessToken: process.env.accessToken,
-    spaceId: process.env.spaceId,
-    addDataTo: locals,
-    contentTypes: [
-      {
-        name: 'case_studies',
-        ordered: true,
-        id: '4FmWzuxZb2EcgyU44weG0Q',
-        filters: {
-          limit: 100
-        }
-      },
-      {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk',
-        filters: {
-          limit: 10
-        }
-      }
-    ]
-  })
-
-  api.run(compilerMock, undefined, () => {
-    t.is(locals.contentful.case_studies.length, 42)
-    t.is(locals.contentful.blogs.length, 10)
-    t.end()
-  })
 })

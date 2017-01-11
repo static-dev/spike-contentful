@@ -11,8 +11,8 @@ module.exports = {
     addDataTo: locals,
     contentTypes: [
       {
-        name: 'blogs',
-        id: '633fTeiMaQwE44OsIqSimk'
+        name: 'dogs',
+        id: 'dog'
       }
     ],
     json: 'data.json'
