@@ -10,9 +10,14 @@ module.exports = {
     spaceId: process.env.spaceId,
     addDataTo: locals,
     contentTypes: [
+      // {
+      //   name: 'cats',
+      //   id: 'cat'
+      // },
       {
         name: 'dogs',
-        id: 'dog'
+        id: 'dog',
+        json: 'dogs.json'
       }
     ],
     json: 'data.json'
