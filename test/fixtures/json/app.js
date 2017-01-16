@@ -12,7 +12,8 @@ module.exports = {
     contentTypes: [
       {
         name: 'dogs',
-        id: 'dog'
+        id: 'dog',
+        json: 'dogs.json'
       }
     ],
     json: 'data.json'

@@ -134,7 +134,7 @@ new Contentful({
 })
 ```
 
-This plugin ships with a default transform function that will run some basic cleanup. However, be warned that the transform will enter an infinite loop and crash if there are circular references within the data, which is not an uncommon occurance, so please be very careful utilizing this transform. The enable our default transform, you can pass `true` as such:
+This plugin ships with a default transform function that will run some basic cleanup. However, be warned that the transform will enter an infinite loop and crash if there are circular references within the data, which is not an uncommon occurance, so please be very careful utilizing this transform. To enable our default transform, you can pass `true` as such:
 
 ```js
 new Contentful({
@@ -149,6 +149,13 @@ new Contentful({
     }
   ]
 })
+```
+
+If you'd like to use our default transform outside of the library, this is also available as an export. For example, you could include it and use it with client-side JS responses.
+
+```js
+const Contentful = require('spike-contentful')
+console.log(Contentful.transform)
 ```
 
 ### Templates
@@ -196,11 +203,29 @@ new Contentful({
 })
 ```
 
-If you'd like to use our default transform outside of the library, this is also available as an export. For example, you could include it and use it with client-side JS responses.
+You may also choose to have the ouput written specifically for any content type :
 
 ```js
-const Contentful = require('spike-contentful')
-console.log(Contentful.transform)
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  spaceId: 'xxx'
+  contentTypes: [
+    {
+      name: 'posts',
+      id: '633fTeiMaxxxxxxxxx',
+      // JSON output expected for this content type
+      json: 'posts.json'
+    },
+    {
+      name: 'press',
+      id: '4Em9bQeIQxxxxxxxxx'
+      // No JSON output needed for this content type
+    }     
+  ],
+  // Save all content types data in one file
+  json: 'alldata.json'
+})
 ```
 
 ### Testing
