@@ -198,7 +198,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.compile()
 })
 
-test.cb('writes json output', (t) => {
+test.cb('writes json outputs', (t) => {
   const projectPath = path.join(__dirname, 'fixtures/json')
   const project = new Spike({
     root: projectPath,
@@ -208,10 +208,14 @@ test.cb('writes json output', (t) => {
   project.on('error', t.end)
   project.on('warning', t.end)
   project.on('compile', () => {
-    const file = path.join(projectPath, 'public/data.json')
-    t.falsy(fs.accessSync(file))
-    const src = JSON.parse(fs.readFileSync(path.join(projectPath, 'public/data.json'), 'utf8'))
-    t.truthy(src.dogs.length > 1)
+    const globalFile = path.join(projectPath, 'public/data.json')
+    const specificFile = path.join(projectPath, 'public/dogs.json')
+    t.falsy(fs.accessSync(globalFile))
+    t.falsy(fs.accessSync(specificFile))
+    const srcGlobal = JSON.parse(fs.readFileSync(path.join(projectPath, 'public/data.json'), 'utf8'))
+    const srcSpecififc = JSON.parse(fs.readFileSync(path.join(projectPath, 'public/dogs.json'), 'utf8'))
+    t.truthy(srcGlobal.dogs.length === 2)
+    t.truthy(srcSpecififc.length === 2)
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
