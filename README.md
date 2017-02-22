@@ -229,7 +229,7 @@ new Contentful({
       name: 'press',
       id: '4Em9bQeIQxxxxxxxxx'
       // No JSON output needed for this content type
-    }     
+    }
   ],
   // Save all content types data in one file
   json: 'alldata.json'

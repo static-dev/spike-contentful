@@ -11,17 +11,17 @@
   "dependencies": {
     "contentful": "4.1.0",
     "reshape": "^0.4.1",
-    "reshape-loader": "^0.4.2",
-    "when": "^3.7.7"
+    "reshape-loader": "next",
+    "when": "^3.7.8"
   },
   "devDependencies": {
     "ava": "^0.19.0",
-    "coveralls": "^2.11.12",
+    "coveralls": "^2.11.16",
     "dotenv": "^4.0.0",
     "nyc": "^10.1.2",
-    "reshape-standard": "^0.5.0",
-    "rimraf": "^2.5.4",
-    "spike-core": "^0.13.3",
+    "reshape-standard": "next",
+    "rimraf": "^2.6.0",
+    "spike-core": "next",
     "standard": "^10.0.0"
   },
   "engines": {
