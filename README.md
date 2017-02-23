@@ -183,7 +183,7 @@ new Contentful({
 Your template must use the `item` variable as seen below. Note: you also will need to prevent Spike from attempting to render your template file normally by adding your templates to Spike's `ignore` option, or adding an underscore to the file name.
 
 ```html
-<p>{item.title}</p>
+<p>{{item.title}}</p>
 ```
 
 ### JSON Output
@@ -221,7 +221,6 @@ new Contentful({
       name: 'press',
       id: '4Em9bQeIQxxxxxxxxx'
       // No JSON output needed for this content type
-    }     
   ],
   // Save all content types data in one file
   json: 'alldata.json'
