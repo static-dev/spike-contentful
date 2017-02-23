@@ -66,6 +66,14 @@ ul
   each(loop='post of contentful.posts')
     li {{ JSON.stringify(post) }}
 ```
+For the sugar-free
+``` html 
+<ul>
+	<each loop="post of contentful.blog">
+		<li>{{ JSON.stringify(post) }}</li>
+	</each>
+</ul>
+```
 
 ### Filters
 
