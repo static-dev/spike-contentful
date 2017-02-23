@@ -172,7 +172,7 @@ new Contentful({
   contentTypes: [{
     name: 'posts',
     id: '633fTeiMaxxxxxxxxx',
-    template: : {
+    template: {
       path: 'templates/post.html',
       output: (post) => { return `posts/${post.id}.html` }
     }
