@@ -105,6 +105,21 @@ test.cb('returns valid content', (t) => {
   })
 })
 
+test.cb('defaults id to name if not present', (t) => {
+  const locals = {}
+  const api = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [{ name: 'cat' }]
+  })
+
+  api.run(compilerMock, undefined, () => {
+    t.is(locals.contentful.cat.length, 3)
+    t.end()
+  })
+})
+
 test.cb('implements request options', (t) => {
   const locals = {}
   const api = new Contentful({
