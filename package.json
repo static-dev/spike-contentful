@@ -9,7 +9,7 @@
   },
   "bugs": "https://github.com/static-dev/spike-contentful/issues",
   "dependencies": {
-    "contentful": "4.1.0",
+    "contentful": "4.1.1",
     "reshape": "^0.4.1",
     "reshape-loader": "^0.4.2",
     "when": "^3.7.7"
