@@ -10,6 +10,7 @@
   "bugs": "https://github.com/static-dev/spike-contentful/issues",
   "dependencies": {
     "contentful": "^4.1.2",
+    "joi": "^10.4.1",
     "reshape": "^0.4.1",
     "reshape-loader": "next",
     "when": "^3.7.8"
