@@ -4,7 +4,7 @@ const locals = {}
 
 module.exports = {
   matchers: { html: '*(**/)*.sgr' },
-  reshape: (ctx) => htmlStandards({ webpack: ctx, locals }),
+  reshape: htmlStandards({ locals }),
   plugins: [new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
