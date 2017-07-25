@@ -34,20 +34,16 @@ module.exports = {
       contentTypes: [
         {
           name: 'posts',
-          id: '633fTeiMaxxxxxxxxx',
+          id: '633fTeiMaxxxxxxxxx'
         },
         {
           name: 'authors',
-          id: '223gTahLaxxxxxxxxx',
+          id: '223gTahLaxxxxxxxxx'
         }
       ]
     })
   ],
-  reshape: (ctx) => {
-    return htmlStandards({
-      locals
-    })
-  }
+  reshape: htmlStandards({ locals: () => locals })
 }
 ```
 
@@ -67,7 +63,7 @@ ul
     li {{ JSON.stringify(post) }}
 ```
 For the sugar-free
-``` html 
+``` html
 <ul>
 	<each loop="post of contentful.blog">
 		<li>{{ JSON.stringify(post) }}</li>
@@ -176,7 +172,7 @@ The `template` option is an object with `path` and `output` keys. The `path` is 
 new Contentful({
   addDataTo: locals,
   accessToken: 'xxx',
-  spaceId: 'xxx'
+  spaceId: 'xxx',
   contentTypes: [{
     name: 'posts',
     id: '633fTeiMaxxxxxxxxx',
@@ -202,7 +198,7 @@ Finally, if you'd like to have the output written locally to a JSON file so that
 new Contentful({
   addDataTo: locals,
   accessToken: 'xxx',
-  spaceId: 'xxx'
+  spaceId: 'xxx',
   contentTypes: [{
     name: 'posts',
     id: '633fTeiMaxxxxxxxxx'
@@ -217,7 +213,7 @@ You may also choose to have the ouput written specifically for any content type 
 new Contentful({
   addDataTo: locals,
   accessToken: 'xxx',
-  spaceId: 'xxx'
+  spaceId: 'xxx',
   contentTypes: [
     {
       name: 'posts',
