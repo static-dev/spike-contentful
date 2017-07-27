@@ -20,7 +20,7 @@
     "coveralls": "^2.13.1",
     "dotenv": "^4.0.0",
     "nyc": "^11.0.3",
-    "reshape-standard": "^2.1.1",
+    "reshape-standard": "^3.0.0",
     "rimraf": "^2.6.0",
     "spike-core": "^2.0.0",
     "standard": "^10.0.2"
