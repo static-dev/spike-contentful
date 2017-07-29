@@ -10,9 +10,8 @@
   "bugs": "https://github.com/static-dev/spike-contentful/issues",
   "dependencies": {
     "contentful": "^4.5.0",
+    "es6bindall": "^0.0.9",
     "joi": "^10.6.0",
-    "reshape": "^0.4.1",
-    "reshape-loader": "^1.1.0",
     "when": "^3.7.8"
   },
   "devDependencies": {
@@ -20,7 +19,7 @@
     "coveralls": "^2.13.1",
     "dotenv": "^4.0.0",
     "nyc": "^11.0.3",
-    "reshape-standard": "^3.0.0",
+    "reshape-standard": "^3.0.1",
     "rimraf": "^2.6.0",
     "spike-core": "^2.2.0",
     "standard": "^10.0.2"

@@ -2216,6 +2216,10 @@ es6-weak-map@^2.0.1:
     es6-iterator "^2.0.1"
     es6-symbol "^3.1.1"
 
+es6bindall@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/es6bindall/-/es6bindall-0.0.9.tgz#71e00afa69f8dd59ac5ac898a0d31c978df817d5"
+
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -5426,17 +5430,17 @@ reshape-plugin-util@^0.2.0, reshape-plugin-util@^0.2.1:
   dependencies:
     when "^3.7.7"
 
-reshape-retext@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/reshape-retext/-/reshape-retext-1.0.0.tgz#879730f6e5b5d108913e28ee210fc42fb8848cda"
+reshape-retext@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/reshape-retext/-/reshape-retext-1.0.1.tgz#015f7ca4162d4ae69359c26e122737c46262a793"
   dependencies:
     reshape-plugin-util "^0.2.0"
     retext "^5.0.0"
     when "^3.7.8"
 
-reshape-standard@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/reshape-standard/-/reshape-standard-3.0.0.tgz#8aff2cfbbe336e5737d68cde19bde72387d76378"
+reshape-standard@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/reshape-standard/-/reshape-standard-3.0.1.tgz#dbaef3c67839ebdd7a316e1b3862a554b946e09f"
   dependencies:
     markdown-it "^8.2.2"
     reshape-beautify "^0.1.2"
@@ -5446,7 +5450,7 @@ reshape-standard@^3.0.0:
     reshape-include "^1.0.0"
     reshape-layouts "^1.0.0"
     reshape-minify "^1.1.0"
-    reshape-retext "^1.0.0"
+    reshape-retext "^1.0.1"
     retext-smartypants "^3.0.0"
 
 reshape@^0.4.1:

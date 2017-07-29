@@ -8,8 +8,6 @@ const fs = require('fs')
 const rimraf = require('rimraf')
 const standard = require('reshape-standard')
 
-const compilerMock = { options: { spike: { locals: {} } } }
-
 test('errors without an "accessToken"', (t) => {
   t.throws(
     () => { new Contentful({ spaceId: 'xxx' }) }, // eslint-disable-line
@@ -98,7 +96,7 @@ test.cb('returns valid content', (t) => {
     ]
   })
 
-  api.run(compilerMock, undefined, () => {
+  api.run(undefined, () => {
     t.is(locals.contentful.dogs.length, 2)
     t.is(locals.contentful.cats.length, 3)
     t.end()
@@ -114,7 +112,7 @@ test.cb('defaults id to name if not present', (t) => {
     contentTypes: [{ name: 'cat' }]
   })
 
-  api.run(compilerMock, undefined, () => {
+  api.run(undefined, () => {
     t.is(locals.contentful.cat.length, 3)
     t.end()
   })
@@ -135,7 +133,7 @@ test.cb('implements request options', (t) => {
     ]
   })
 
-  api.run(compilerMock, undefined, () => {
+  api.run(undefined, () => {
     t.is(locals.contentful.cats.length, 1)
     t.is(locals.contentful.cats[0].fields.name, 'Garfield')
     t.end()
@@ -164,7 +162,7 @@ test.cb('works with custom transform function', (t) => {
     ]
   })
 
-  api.run(compilerMock, undefined, () => {
+  api.run(undefined, () => {
     t.is(locals.contentful.cats[0].doge, 'wow')
     t.end()
   })
@@ -188,7 +186,7 @@ test.cb('can implement default transform function', (t) => {
     ]
   })
 
-  api.run(compilerMock, undefined, () => {
+  api.run(undefined, () => {
     t.truthy(typeof locals.contentful.cats[0].name === 'string')
     t.end()
   })
@@ -205,7 +203,7 @@ test.cb('works as a plugin to spike', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => {
     const src = fs.readFileSync(path.join(projectPath, 'public/index.html'), 'utf8')
-    t.truthy(src === '<p>Nyan Cat</p>')
+    t.truthy(src.trim() === '<p>Nyan Cat</p>')
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
@@ -253,24 +251,22 @@ test.cb('accepts template object and generates html', (t) => {
           order: 'sys.createdAt'
         },
         template: {
-          path: '../template/template.sgr',
+          path: 'template.html',
           output: (item) => `cats/${item.fields.name}.html`
         }
       }
     ]
   })
 
-  const projectPath = path.join(__dirname, 'fixtures/default')
+  const projectPath = path.join(__dirname, 'fixtures/template')
   const project = new Spike({
     root: projectPath,
-    matchers: { html: '**/*.sgr' },
     reshape: standard({ locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
   })
 
   project.on('error', t.end)
-  project.on('warning', t.end)
   project.on('compile', () => {
     const file1 = fs.readFileSync(path.join(projectPath, 'public/cats/Happy Cat.html'), 'utf8')
     const file2 = fs.readFileSync(path.join(projectPath, 'public/cats/Nyan Cat.html'), 'utf8')
@@ -297,17 +293,16 @@ test.cb('generates error if template has an error', (t) => {
           limit: 1
         },
         template: {
-          path: '../template/error.sgr',
+          path: 'error.html',
           output: (item) => `cats/${item.fields.name}.html`
         }
       }
     ]
   })
 
-  const projectPath = path.join(__dirname, 'fixtures/default')
+  const projectPath = path.join(__dirname, 'fixtures/error')
   const project = new Spike({
     root: projectPath,
-    matchers: { html: '**/*.sgr' },
     reshape: standard({ locals }),
     entry: { main: [path.join(projectPath, 'main.js')] },
     plugins: [contentful]
@@ -316,7 +311,7 @@ test.cb('generates error if template has an error', (t) => {
   project.on('warning', t.end)
   project.on('compile', () => t.end('no error'))
   project.on('error', (error) => {
-    t.is(error.toString(), "Error: Cannot read property 'fields' of undefined")
+    t.regex(error.toString(), /Error: Cannot read property 'fields' of undefined/)
     rimraf.sync(path.join(projectPath, 'public'))
     t.end()
   })
