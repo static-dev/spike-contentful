@@ -3,7 +3,6 @@ const standard = require('reshape-standard')
 const locals = {}
 
 module.exports = {
-  matchers: { html: '*(**/)*.sgr' },
   reshape: standard({ locals }),
   plugins: [new Contentful({
     accessToken: process.env.accessToken,

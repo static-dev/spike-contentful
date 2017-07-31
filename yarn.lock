@@ -452,7 +452,7 @@ aws4@^1.2.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-"axios@github:contentful/axios#fix/https-via-http-proxy":
+axios@contentful/axios#fix/https-via-http-proxy:
   version "0.16.3"
   resolved "https://codeload.github.com/contentful/axios/tar.gz/486c956313b4937d83202ae72304d3eb210487bb"
   dependencies:
@@ -2215,6 +2215,10 @@ es6-weak-map@^2.0.1:
     es5-ext "^0.10.14"
     es6-iterator "^2.0.1"
     es6-symbol "^3.1.1"
+
+es6bindall@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/es6bindall/-/es6bindall-0.0.9.tgz#71e00afa69f8dd59ac5ac898a0d31c978df817d5"
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -5402,7 +5406,7 @@ reshape-loader@^1.1.0:
     reshape "^0.4.1"
     reshape-include "^1.0.0"
 
-reshape-minify@^1.0.0:
+reshape-minify@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/reshape-minify/-/reshape-minify-1.1.0.tgz#40bc402b99f3d38359135ce2ef955f071abd8f7e"
   dependencies:
@@ -5426,17 +5430,17 @@ reshape-plugin-util@^0.2.0, reshape-plugin-util@^0.2.1:
   dependencies:
     when "^3.7.7"
 
-reshape-retext@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/reshape-retext/-/reshape-retext-1.0.0.tgz#879730f6e5b5d108913e28ee210fc42fb8848cda"
+reshape-retext@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/reshape-retext/-/reshape-retext-1.0.1.tgz#015f7ca4162d4ae69359c26e122737c46262a793"
   dependencies:
     reshape-plugin-util "^0.2.0"
     retext "^5.0.0"
     when "^3.7.8"
 
-reshape-standard@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/reshape-standard/-/reshape-standard-2.1.1.tgz#cf23b06403927f47211512a7ce7849f94d939d73"
+reshape-standard@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/reshape-standard/-/reshape-standard-3.0.1.tgz#dbaef3c67839ebdd7a316e1b3862a554b946e09f"
   dependencies:
     markdown-it "^8.2.2"
     reshape-beautify "^0.1.2"
@@ -5445,11 +5449,9 @@ reshape-standard@^2.1.1:
     reshape-expressions "^0.1.5"
     reshape-include "^1.0.0"
     reshape-layouts "^1.0.0"
-    reshape-minify "^1.0.0"
-    reshape-parser "^0.2.1"
-    reshape-retext "^1.0.0"
+    reshape-minify "^1.1.0"
+    reshape-retext "^1.0.1"
     retext-smartypants "^3.0.0"
-    sugarml "^0.6.0"
 
 reshape@^0.4.1:
   version "0.4.1"
@@ -5866,9 +5868,9 @@ spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
 
-spike-core@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/spike-core/-/spike-core-2.1.0.tgz#b6b6e2df932f23b5594f09c8796cfee1f6f4951f"
+spike-core@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/spike-core/-/spike-core-2.2.0.tgz#ace3f6015b30cb84a9250fee42f4418c2fcfea11"
   dependencies:
     babel-core "^6.25.0"
     babel-loader "^7.1.1"
@@ -5889,7 +5891,7 @@ spike-core@^2.0.0:
     source-loader "^1.0.0"
     spike-util "^1.3.0"
     sprout "^1.2.1"
-    webpack "^3.3.0"
+    webpack "^3.4.1"
     when "^3.7.8"
 
 spike-util@^1.3.0:
@@ -6079,12 +6081,6 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-
-sugarml@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/sugarml/-/sugarml-0.6.0.tgz#9276d5e23e9cd8026b7db7df9ca49e6b29e00fb6"
-  dependencies:
-    code-frame "^5.0.0"
 
 supports-color@^2.0.0:
   version "2.0.0"
@@ -6593,9 +6589,9 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^3.3.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.4.0.tgz#e9465b660ad79dd2d33874d968b31746ea9a8e63"
+webpack@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.4.1.tgz#4c3f4f3fb318155a4db0cb6a36ff05c5697418f4"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"
