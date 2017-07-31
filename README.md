@@ -1,7 +1,7 @@
 # Spike Contentful Plugin
 
-[![npm](http://img.shields.io/npm/v/spike-contentful.svg?style=flat)](https://badge.fury.io/js/spike-contentful) [![tests](http://img.shields.io/travis/static-dev/spike-contentful/master.svg?style=flat)](https://travis-ci.org/static-dev/spike-contentful) [![dependencies](http://img.shields.io/david/static-dev/spike-contentful.svg?style=flat)](https://david-dm.org/static-dev/spike-contentful)
-[![coverage](http://img.shields.io/coveralls/static-dev/spike-contentful.svg?style=flat)](https://coveralls.io/github/static-dev/spike-contentful)
+[![npm](http://img.shields.io/npm/v/spike-contentful.svg?style=flat-square)](https://badge.fury.io/js/spike-contentful) [![tests](http://img.shields.io/travis/static-dev/spike-contentful/master.svg?style=flat-square)](https://travis-ci.org/static-dev/spike-contentful) [![dependencies](http://img.shields.io/david/static-dev/spike-contentful.svg?style=flat-square)](https://david-dm.org/static-dev/spike-contentful)
+[![coverage](http://img.shields.io/coveralls/static-dev/spike-contentful.svg?style=flat-square)](https://coveralls.io/github/static-dev/spike-contentful)
 
 [Contentful CMS](https://www.contentful.com/) plugin for [spike](https://github.com/static-dev/spike)
 
