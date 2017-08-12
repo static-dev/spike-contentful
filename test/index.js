@@ -318,3 +318,77 @@ test.cb('generates error if template has an error', (t) => {
 
   project.compile()
 })
+
+test.cb('generates error if template has no path', (t) => {
+  const locals = {}
+  const contentful = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat',
+        filters: {
+          limit: 2,
+          order: 'sys.createdAt'
+        },
+        template: {
+          output: (item) => `cats/${item.fields.name}.html`
+        }
+      }
+    ]
+  })
+
+  const projectPath = path.join(__dirname, 'fixtures/template')
+  const project = new Spike({
+    root: projectPath,
+    reshape: standard({ locals }),
+    entry: { main: [path.join(projectPath, 'main.js')] },
+    plugins: [contentful]
+  })
+
+  project.on('error', (error) => {
+    t.regex(error.toString(), /Error: cats.template must have a "path" property/)
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+  project.compile()
+})
+
+test.cb('generates error if template has no output function', (t) => {
+  const locals = {}
+  const contentful = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat',
+        filters: {
+          limit: 2,
+          order: 'sys.createdAt'
+        },
+        template: {
+          path: 'template.html'
+        }
+      }
+    ]
+  })
+
+  const projectPath = path.join(__dirname, 'fixtures/template')
+  const project = new Spike({
+    root: projectPath,
+    reshape: standard({ locals }),
+    entry: { main: [path.join(projectPath, 'main.js')] },
+    plugins: [contentful]
+  })
+
+  project.on('error', (error) => {
+    t.regex(error.toString(), /Error: cats.template must have an "output" function/)
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+  project.compile()
+})
