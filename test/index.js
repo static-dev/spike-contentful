@@ -392,3 +392,91 @@ test.cb('generates error if template has no output function', (t) => {
   })
   project.compile()
 })
+
+test.cb('can use locals in template', (t) => {
+  const locals = {
+    localTest: 'locals available'
+  }
+  const contentful = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat',
+        filters: {
+          limit: 2,
+          order: 'sys.createdAt'
+        },
+        template: {
+          path: 'template.html',
+          output: (item) => `cats/${item.fields.name}.html`
+        }
+      }
+    ]
+  })
+
+  const projectPath = path.join(__dirname, 'fixtures/template-locals')
+  const project = new Spike({
+    root: projectPath,
+    reshape: standard({ locals }),
+    entry: { main: [path.join(projectPath, 'main.js')] },
+    plugins: [contentful]
+  })
+
+  project.on('error', t.end)
+  project.on('compile', () => {
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/cats/Happy Cat.html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/cats/Nyan Cat.html'), 'utf8')
+    t.is(file1.trim(), `<p>${locals.localTest}</p>`)
+    t.is(file2.trim(), `<p>${locals.localTest}</p>`)
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+
+  project.compile()
+})
+
+test.cb('can use contentful in template', (t) => {
+  const locals = {}
+  const contentful = new Contentful({
+    accessToken: process.env.accessToken,
+    spaceId: process.env.spaceId,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat',
+        filters: {
+          limit: 2,
+          order: 'sys.createdAt'
+        },
+        template: {
+          path: 'template.html',
+          output: (item) => `cats/${item.fields.name}.html`
+        }
+      }
+    ]
+  })
+
+  const projectPath = path.join(__dirname, 'fixtures/template-contentful')
+  const project = new Spike({
+    root: projectPath,
+    reshape: standard({ locals }),
+    entry: { main: [path.join(projectPath, 'main.js')] },
+    plugins: [contentful]
+  })
+
+  project.on('error', t.end)
+  project.on('compile', () => {
+    const file1 = fs.readFileSync(path.join(projectPath, 'public/cats/Happy Cat.html'), 'utf8')
+    const file2 = fs.readFileSync(path.join(projectPath, 'public/cats/Nyan Cat.html'), 'utf8')
+    t.is(file1.trim(), '<p>Nyan Cat</p>')
+    t.is(file2.trim(), '<p>Nyan Cat</p>')
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+
+  project.compile()
+})
