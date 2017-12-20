@@ -22,15 +22,22 @@ test('errors without a "spaceId"', (t) => {
   )
 })
 
+test('errors without a "preview"', (t) => {
+  t.throws(
+    () => { new Contentful({ accessToken: 'xxx', spaceId: 'xxx' }) },
+    'ValidationError: [spike-contentful constructor] option "preview" is required'
+  )
+})
+
 test('errors without "addDataTo"', (t) => {
   t.throws(
-    () => { new Contentful({ accessToken: 'xxx', spaceId: 'xxx' }) }, // eslint-disable-line
+    () => { new Contentful({ accessToken: process.env.accessToken, spaceId: process.env.spaceId, preview: false }) }, // eslint-disable-line
     'ValidationError: [spike-contentful constructor] option "addDataTo" is required'
   )
 })
 
-test('initializes with an "accessToken", "spaceId", and "addDataTo"', (t) => {
-  const rt = new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {} })
+test('initializes with an "accessToken", "spaceId", and "addDataTo" and "preview"', (t) => {
+  const rt = new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {} })
   t.truthy(rt)
 })
 
@@ -38,6 +45,7 @@ test('initializes with "limit" filter', (t) => {
   t.truthy(new Contentful({
     accessToken: 'xxx',
     spaceId: 'xxx',
+    preview: false,
     addDataTo: {},
     contentTypes: [{
       name: 'test', id: 'xxxx', filters: { limit: 50 }
@@ -48,7 +56,7 @@ test('initializes with "limit" filter', (t) => {
 test('errors with "limit" filter under 1', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{ // eslint-disable-line
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 0 } }
       ]})
     },
@@ -59,7 +67,7 @@ test('errors with "limit" filter under 1', (t) => {
 test('errors with "limit" filter over 100', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {}, contentTypes: [{ // eslint-disable-line
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 101 } }
       ]})
     },
@@ -71,6 +79,7 @@ test('initializes with "limit" filter', (t) => {
   const opts = {
     accessToken: 'xxx',
     spaceId: 'xxx',
+    preview: false,
     addDataTo: {},
     contentTypes: [{
       name: 'test', id: 'xxxx', filters: { limit: 50 } }
@@ -84,6 +93,32 @@ test.cb('returns valid content', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat'
+      }, {
+        name: 'dogs',
+        id: 'dog'
+      }
+    ]
+  })
+
+  api.run(undefined, () => {
+    t.is(locals.contentful.dogs.length, 2)
+    t.is(locals.contentful.cats.length, 3)
+    t.end()
+  })
+})
+
+test.cb('returns valid preview content', (t) => {
+  const locals = {}
+  const api = new Contentful({
+    accessToken: process.env.previewToken,
+    spaceId: process.env.spaceId,
+    preview: true,
     addDataTo: locals,
     contentTypes: [
       {
@@ -108,6 +143,7 @@ test.cb('defaults id to name if not present', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [{ name: 'cat' }]
   })
@@ -123,6 +159,7 @@ test.cb('implements request options', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -146,6 +183,7 @@ test.cb('works with custom transform function', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -173,6 +211,7 @@ test.cb('can implement default transform function', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -241,6 +280,7 @@ test.cb('accepts template object and generates html', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -284,6 +324,7 @@ test.cb('generates error if template has an error', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -324,6 +365,7 @@ test.cb('generates error if template has no path', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -361,6 +403,7 @@ test.cb('generates error if template has no output function', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -400,6 +443,7 @@ test.cb('can use locals in template', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -443,6 +487,7 @@ test.cb('can use contentful in template', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
+    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
