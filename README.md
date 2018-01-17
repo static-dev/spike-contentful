@@ -53,7 +53,7 @@ Since Spike uses `reshape`, you can use a variety of different plugins to expose
 
 In order to pass the data correctly, you must pass `spike-contentful` an object, which it will load the data onto when the compile begins under a `contentful` key. If you also pass the same object to whatever `reshape` plugin you are using in whatever manner it requires to make the data available in your html templates, the data will be present on that object before they start compiling. This is a slightly unconventional pattern for Javascript libraries, but in this situation it allows for maximum flexibility and convenience.
 
-Once included, it will expose a `contentful` local to your jade files, which you can use to iterate through your content types. Based on the example above, the `posts` content type will be accessible through `contentful.posts`, as such:
+Once included, it will expose a `contentful` local to your markup (`.sgr`, `.html`, etc...) files, which you can use to iterate through your content types. Based on the example above, the `posts` content type will be accessible through `contentful.posts`, as such:
 
 
 ```jade
