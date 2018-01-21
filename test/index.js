@@ -30,7 +30,7 @@ test('errors without "addDataTo"', (t) => {
 })
 
 test('initializes with an "accessToken", "spaceId", and "addDataTo" and "preview"', (t) => {
-  const rt = new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {} })
+  const rt = new Contentful({ accessToken: 'xxx', spaceId: 'xxx', addDataTo: {} })
   t.truthy(rt)
 })
 
@@ -38,7 +38,6 @@ test('initializes with "limit" filter', (t) => {
   t.truthy(new Contentful({
     accessToken: 'xxx',
     spaceId: 'xxx',
-    preview: false,
     addDataTo: {},
     contentTypes: [{
       name: 'test', id: 'xxxx', filters: { limit: 50 }
@@ -49,7 +48,7 @@ test('initializes with "limit" filter', (t) => {
 test('errors with "limit" filter under 1', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {}, contentTypes: [{ // eslint-disable-line
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx',  addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 0 } }
       ]})
     },
@@ -60,7 +59,7 @@ test('errors with "limit" filter under 1', (t) => {
 test('errors with "limit" filter over 100', (t) => {
   t.throws(
     () => {
-      new Contentful({ accessToken: 'xxx', spaceId: 'xxx', preview: false, addDataTo: {}, contentTypes: [{ // eslint-disable-line
+      new Contentful({ accessToken: 'xxx', spaceId: 'xxx',  addDataTo: {}, contentTypes: [{ // eslint-disable-line
         name: 'test', id: 'xxxx', filters: { limit: 101 } }
       ]})
     },
@@ -72,7 +71,6 @@ test('initializes with "limit" filter', (t) => {
   const opts = {
     accessToken: 'xxx',
     spaceId: 'xxx',
-    preview: false,
     addDataTo: {},
     contentTypes: [{
       name: 'test', id: 'xxxx', filters: { limit: 50 } }
@@ -86,7 +84,6 @@ test.cb('returns valid content', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -136,7 +133,6 @@ test.cb('defaults id to name if not present', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [{ name: 'cat' }]
   })
@@ -152,7 +148,6 @@ test.cb('implements request options', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -165,7 +160,7 @@ test.cb('implements request options', (t) => {
 
   api.run(undefined, () => {
     t.is(locals.contentful.cats.length, 1)
-    /* t.is(locals.contentful.cats[0].fields.name, 'Garfield') /* change from Garfield to Nyan Cat passes test */
+    t.is(locals.contentful.cats[0].fields.name, 'Nyan Cat')
     t.end()
   })
 })
@@ -176,7 +171,6 @@ test.cb('works with custom transform function', (t) => {
   const api = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -275,7 +269,6 @@ test.cb('accepts template object and generates html', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -319,7 +312,6 @@ test.cb('generates error if template has an error', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -360,7 +352,6 @@ test.cb('generates error if template has no path', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -398,7 +389,6 @@ test.cb('generates error if template has no output function', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -438,7 +428,6 @@ test.cb('can use locals in template', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
@@ -482,7 +471,6 @@ test.cb('can use contentful in template', (t) => {
   const contentful = new Contentful({
     accessToken: process.env.accessToken,
     spaceId: process.env.spaceId,
-    preview: false,
     addDataTo: locals,
     contentTypes: [
       {
