@@ -9,18 +9,18 @@
   },
   "bugs": "https://github.com/static-dev/spike-contentful/issues",
   "dependencies": {
-    "contentful": "^4.5.0",
+    "contentful": "^5.0.5",
     "es6bindall": "^0.0.9",
     "joi": "^10.6.0",
     "when": "^3.7.8"
   },
   "devDependencies": {
-    "ava": "^0.21.0",
-    "coveralls": "^2.13.1",
-    "dotenv": "^4.0.0",
-    "nyc": "^11.0.3",
-    "reshape-standard": "^3.1.0",
-    "rimraf": "^2.6.0",
+    "ava": "^0.25.0",
+    "coveralls": "^3.0.0",
+    "dotenv": "^5.0.0",
+    "nyc": "^11.4.1",
+    "reshape-standard": "^3.3.0",
+    "rimraf": "^2.6.2",
     "spike-core": "^2.2.0",
     "standard": "^10.0.3"
   },
