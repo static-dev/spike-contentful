@@ -171,6 +171,46 @@ Your template must use the `item` variable as seen below. Also note that this fe
 <p>{{item.title}}</p>
 ```
 
+### Preview Environment
+
+Using [Spike Environments](https://spike.readme.io/docs/environments), you can change your default `app.js` to use [Contentful's preview API](https://www.contentful.com/developers/docs/references/content-preview-api/) by using your project's preview key (in this example, `yyy`).
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'yyy',
+  preview: true;
+  spaceId: 'xxx'
+})
+```
+
+Then set your `app.production.js` to:
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  preview: false;
+  spaceId: 'xxx'
+})
+```
+From there, running `spike compile` will use the preview API, and `spike compile -e production` will use the regular content delivery API.
+
+This can also be accomplished with a single `app.js` with the help of [Dotenv](https://www.npmjs.com/package/dotenv).
+
+Require Dotenv in your `app.js` file, then modify the Contentful call to use your preview key (in this example, `yyy`).
+
+```js
+const env = process.env.SPIKE_ENV;
+
+new Contentful({
+  addDataTo: locals,
+  accessToken: env !== 'production' ? 'yyy' : 'xxx' ,
+  preview: env !== 'production';
+  spaceId: 'xxx'
+})
+```
+
 ### JSON Output
 
 Finally, if you'd like to have the output written locally to a JSON file so that it's cached locally, you can pass the name of the file, resolved relative to your project's output, as a `json` option to the plugin. For example:
