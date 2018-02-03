@@ -53,8 +53,7 @@ Since Spike uses `reshape`, you can use a variety of different plugins to expose
 
 In order to pass the data correctly, you must pass `spike-contentful` an object, which it will load the data onto when the compile begins under a `contentful` key. If you also pass the same object to whatever `reshape` plugin you are using in whatever manner it requires to make the data available in your html templates, the data will be present on that object before they start compiling. This is a slightly unconventional pattern for Javascript libraries, but in this situation it allows for maximum flexibility and convenience.
 
-Once included, it will expose a `contentful` local to your jade files, which you can use to iterate through your content types. Based on the example above, the `posts` content type will be accessible through `contentful.posts`, as such:
-
+Once included, it will expose a `contentful` local to your markup (`.sgr`, `.html`, etc...) files, which you can use to iterate through your content types. Based on the example above, the `posts` content type will be accessible through `contentful.posts`, as such:
 
 ```jade
 // a template file
@@ -62,8 +61,10 @@ ul
   each(loop='post of contentful.posts')
     li {{ JSON.stringify(post) }}
 ```
+
 For the sugar-free
-``` html
+
+```html
 <ul>
 	<each loop="post of contentful.blog">
 		<li>{{ JSON.stringify(post) }}</li>
@@ -118,7 +119,7 @@ new Contentful({
 
 ### Transforms
 
-Contentful returns a lot of associated data and, as a result, we include a way to clean it up. You also have the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
+Contentful returns a lot of associated data and, as a result, we give you the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
 
 ```js
 new Contentful({
@@ -129,37 +130,13 @@ new Contentful({
     {
       name: 'posts',
       id: '633fTeiMaxxxxxxxxx',
-      transform: (post) => {
+      transform: post => {
         // do your transformation here...
         return post
       }
     }
   ]
 })
-```
-
-This plugin ships with a default transform function that will run some basic cleanup. However, be warned that the transform will enter an infinite loop and crash if there are circular references within the data, which is not an uncommon occurance, so please be very careful utilizing this transform. To enable our default transform, you can pass `true` as such:
-
-```js
-new Contentful({
-  addDataTo: locals,
-  accessToken: 'xxx',
-  spaceId: 'xxx',
-  contentTypes: [
-    {
-      name: 'posts',
-      id: '633fTeiMaxxxxxxxxx',
-      transform: true
-    }
-  ]
-})
-```
-
-If you'd like to use our default transform outside of the library, this is also available as an export. For example, you could include it and use it with client-side JS responses.
-
-```js
-const Contentful = require('spike-contentful')
-console.log(Contentful.transform)
 ```
 
 ### Templates
@@ -173,14 +150,18 @@ new Contentful({
   addDataTo: locals,
   accessToken: 'xxx',
   spaceId: 'xxx',
-  contentTypes: [{
-    name: 'posts',
-    id: '633fTeiMaxxxxxxxxx',
-    template: {
-      path: 'templates/post.html',
-      output: (post) => { return `posts/${post.id}.html` }
+  contentTypes: [
+    {
+      name: 'posts',
+      id: '633fTeiMaxxxxxxxxx',
+      template: {
+        path: 'templates/post.html',
+        output: post => {
+          return `posts/${post.id}.html`
+        }
+      }
     }
-  }]
+  ]
 })
 ```
 
@@ -199,10 +180,12 @@ new Contentful({
   addDataTo: locals,
   accessToken: 'xxx',
   spaceId: 'xxx',
-  contentTypes: [{
-    name: 'posts',
-    id: '633fTeiMaxxxxxxxxx'
-  }],
+  contentTypes: [
+    {
+      name: 'posts',
+      id: '633fTeiMaxxxxxxxxx'
+    }
+  ],
   json: 'data.json'
 })
 ```
@@ -240,11 +223,11 @@ By default, this plugin will only fetch data once when you start your watcher, f
 
 To run the tests locally, you'll need to add a `test/.env` with your name and token values:
 
-- `cp test/.env.sample test/.env`
-- `accessToken` is derived from "APIs" > "Content Delivery API Keys" in the Contentful admin section.
-- `spaceId` is also derived from "APIs" > "Content Delivery API Keys" in the Contentful admin section.
+* `cp test/.env.sample test/.env`
+* `accessToken` is derived from "APIs" > "Content Delivery API Keys" in the Contentful admin section.
+* `spaceId` is also derived from "APIs" > "Content Delivery API Keys" in the Contentful admin section.
 
 ### License & Contributing
 
-- Details on the license [can be found here](LICENSE.md)
-- Details on running tests and contributing [can be found here](CONTRIBUTING.md)
+* Details on the license [can be found here](LICENSE.md)
+* Details on running tests and contributing [can be found here](CONTRIBUTING.md)
