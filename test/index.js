@@ -164,8 +164,7 @@ test.cb('returns valid preview content', (t) => {
   })
 })
 
-test.cb('implements request options', t => {
-
+test.cb('defaults id to name if not present', t => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -175,14 +174,12 @@ test.cb('implements request options', t => {
   })
 
   api.run(undefined, () => {
-    t.is(locals.contentful.cats.length, 1)
-    t.is(locals.contentful.cats[0].fields.name, 'Nyan Cat')
+    t.is(locals.contentful.cat.length, 3)
     t.end()
   })
 })
 
-
-test.cb('works with custom transform function', t => {
+test.cb('implements request options', t => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -192,13 +189,7 @@ test.cb('works with custom transform function', t => {
       {
         name: 'cats',
         id: 'cat',
-        filters: {
-          limit: 1
-        },
-        transform: entry => {
-          entry.doge = 'wow'
-          return entry
-        }
+        filters: { limit: 1 }
       }
     ]
   })
