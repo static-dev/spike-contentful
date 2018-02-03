@@ -123,7 +123,8 @@ test.cb('returns valid content', t => {
       {
         name: 'cats',
         id: 'cat'
-      }, {
+      },
+      {
         name: 'dogs',
         id: 'dog'
       }
@@ -163,7 +164,8 @@ test.cb('returns valid preview content', (t) => {
   })
 })
 
-test.cb('defaults id to name if not present', t => {
+test.cb('implements request options', t => {
+
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -173,12 +175,14 @@ test.cb('defaults id to name if not present', t => {
   })
 
   api.run(undefined, () => {
-    t.is(locals.contentful.cat.length, 3)
+    t.is(locals.contentful.cats.length, 1)
+    t.is(locals.contentful.cats[0].fields.name, 'Nyan Cat')
     t.end()
   })
 })
 
-test.cb('implements request options', t => {
+
+test.cb('works with custom transform function', t => {
   const locals = {}
   const api = new Contentful({
     accessToken: process.env.accessToken,
@@ -188,7 +192,13 @@ test.cb('implements request options', t => {
       {
         name: 'cats',
         id: 'cat',
-        filters: { limit: 1 }
+        filters: {
+          limit: 1
+        },
+        transform: entry => {
+          entry.doge = 'wow'
+          return entry
+        }
       }
     ]
   })
@@ -200,31 +210,6 @@ test.cb('implements request options', t => {
   })
 })
 
-===========*/
-// test.cb('can implement default transform function', (t) => {
-//   const locals = {}
-//   const api = new Contentful({
-//     accessToken: process.env.accessToken,
-//     spaceId: process.env.spaceId,
-//     addDataTo: locals,
-//     contentTypes: [
-//       {
-//         name: 'cats',
-//         id: 'cat',
-//         transform: true,
-//         filters: {
-//           limit: 1
-//         }
-//       }
-//     ]
-//   })
-//
-//   api.run(undefined, () => {
-//     t.truthy(typeof locals.contentful.cats[0].name === 'string')
-//     t.end()
-//   })
-// })
-=======
 test.cb('works with custom transform function', t => {
   const locals = {}
 
