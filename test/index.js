@@ -138,6 +138,32 @@ test.cb('returns valid content', t => {
   })
 })
 
+test.cb('returns valid preview content', (t) => {
+  const locals = {}
+  const api = new Contentful({
+    accessToken: process.env.previewToken,
+    spaceId: process.env.spaceId,
+    preview: true,
+    addDataTo: locals,
+    contentTypes: [
+      {
+        name: 'cats',
+        id: 'cat'
+      },
+      {
+        name: 'dogs',
+        id: 'dog'
+      }
+    ]
+  })
+
+  api.run(undefined, () => {
+    t.is(locals.contentful.dogs.length, 2)
+    t.is(locals.contentful.cats.length, 3)
+    t.end()
+  })
+})
+
 test.cb('defaults id to name if not present', t => {
   const locals = {}
   const api = new Contentful({
