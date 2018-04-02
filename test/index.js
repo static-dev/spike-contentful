@@ -79,7 +79,7 @@ test('errors with "limit" filter under 1', t => {
   }, /option "limit" must be larger than or equal to 1/)
 })
 
-test('errors with "limit" filter over 100', t => {
+test('errors with "limit" filter over 1000', t => {
   t.throws(() => {
     new Contentful({
       accessToken: 'xxx',
@@ -90,7 +90,7 @@ test('errors with "limit" filter over 100', t => {
           // eslint-disable-line
           name: 'test',
           id: 'xxxx',
-          filters: { limit: 101 }
+          filters: { limit: 1001 }
         }
       ]
     })
