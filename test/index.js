@@ -196,7 +196,7 @@ test.cb('implements request options', t => {
 
   api.run(undefined, () => {
     t.is(locals.contentful.cats.length, 1)
-    t.is(locals.contentful.cats[0].fields.name, 'Nyan Cat')
+    t.is(locals.contentful.cats[0].fields.name, 'Garfield')
     t.end()
   })
 })
