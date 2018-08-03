@@ -117,6 +117,31 @@ new Contentful({
 })
 ```
 
+### Returning Linked Content Entries
+
+Contentful allows you to link content types with a field called references. This can create a chain of links. For example __Content Entry A__ could contain a reference to __Content Entry B__, and __Content Entry B__ could further reference __Content Entry C__. 
+
+Spike's default settings return only the first level of links, meaning that returning __Content Entry A__ from above will also retun __Content Entry B__, but not __Content Entry C__. There is an option called includeLevel that can be included in your Contentful object, which will allow you to return more levels of links than the default 1. This is extremely helpful if your content model relies heavily on references.
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  spaceId: 'xxx',
+  includeLevel: 10,
+  contentTypes: [
+    {
+      name: 'posts',
+      id: '633fTeiMaxxxxxxxxx',
+      filters: {
+        limit: 10,
+        order: 'sys.createdAt'
+      }
+    }
+  ]
+})
+```
+
 ### Transforms
 
 Contentful returns a lot of associated data and, as a result, we give you the ability to pass your own custom `transform` option to each content type allowing you to transform the data however you like before it's sent to your views.
