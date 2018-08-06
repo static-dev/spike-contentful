@@ -121,7 +121,7 @@ new Contentful({
 
 Contentful allows you to link content types with a field called references. This can create a chain of links. For example __Content Entry A__ could contain a reference to __Content Entry B__, and __Content Entry B__ could further reference __Content Entry C__. 
 
-Spike's default settings return only the first level of links, meaning that returning __Content Entry A__ from above will also retun __Content Entry B__, but not __Content Entry C__. There is an option called includeLevel that can be included in your Contentful object, which will allow you to return more levels of links than the default 1. This is extremely helpful if your content model relies heavily on references.
+Contentful's default settings return only the first level of links, meaning that returning __Content Entry A__ from above will also retun __Content Entry B__, but not __Content Entry C__. Spike has an option called includeLevel that can be included in your Contentful object, which will allow you to return more levels of links than the default 1. This is extremely helpful if your content model relies heavily on references.
 
 ```js
 new Contentful({
