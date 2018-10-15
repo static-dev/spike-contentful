@@ -251,6 +251,28 @@ test.cb('works as a plugin to spike', t => {
   project.compile()
 })
 
+test.cb('works as a plugin to spike with aggressive', t => {
+  const projectPath = path.join(__dirname, 'fixtures/aggressive')
+  const project = new Spike({
+    root: projectPath,
+    entry: { main: [path.join(projectPath, 'main.js')] }
+  })
+
+  project.on('error', t.end)
+  project.on('warning', t.end)
+  project.on('compile', () => {
+    const src = fs.readFileSync(
+      path.join(projectPath, 'public/index.html'),
+      'utf8'
+    )
+    t.truthy(src.trim() === '<p>Nyan Cat</p>')
+    rimraf.sync(path.join(projectPath, 'public'))
+    t.end()
+  })
+
+  project.compile()
+})
+
 test.cb('writes json outputs', t => {
   const projectPath = path.join(__dirname, 'fixtures/json')
   const project = new Spike({
