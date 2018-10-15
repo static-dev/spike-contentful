@@ -1,6 +1,6 @@
 const Contentful = require('../../..')
 const standard = require('reshape-standard')
-const locals = {}
+const locals = {'spike':'test'}
 
 module.exports = {
   reshape: standard({ locals }),
