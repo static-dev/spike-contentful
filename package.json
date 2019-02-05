@@ -18,7 +18,7 @@
     "ava": "^0.25.0",
     "coveralls": "^3.0.0",
     "dotenv": "^5.0.0",
-    "nyc": "^11.4.1",
+    "nyc": "^13.2.0",
     "reshape-standard": "^3.3.0",
     "rimraf": "^2.6.2",
     "spike-core": "^2.2.0",
