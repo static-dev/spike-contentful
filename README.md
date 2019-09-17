@@ -31,6 +31,7 @@ module.exports = {
       addDataTo: locals,
       accessToken: 'xxx',
       spaceId: 'xxx',
+      environment: 'xxx',
       contentTypes: [
         {
           name: 'posts',
@@ -235,6 +236,22 @@ new Contentful({
   spaceId: 'xxx'
 })
 ```
+
+### Multiple Environments
+
+Using [Contentful's Environments](https://www.contentful.com/developers/docs/concepts/multiple-environments), you can specify different branches in a single space for staging and other environments:
+
+```js
+new Contentful({
+  addDataTo: locals,
+  accessToken: 'xxx',
+  preview: false;
+  spaceId: 'xxx',
+  environment: 'staging' // Or whatever your environment is called
+})
+```
+
+By default `environment` is set to `master`, which is provided with every Contentful space. For each environment you want to use, specify the name as it's provided in Contentful.
 
 ### JSON Output
 
